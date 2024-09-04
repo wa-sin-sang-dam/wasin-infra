@@ -40,4 +40,3 @@ uci set qos.wan.upload='40000'
 uci commit qos
 /etc/init.d/qos restart
 /etc/init.d/network restart
-root@OpenWrt_Origin:~/test_test#
