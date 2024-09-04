@@ -12,11 +12,31 @@ sleep 1
 opkg update
 opkg install prometheus-node-exporter-lua  \
 prometheus-node-exporter-lua-nat_traffic \
-prometheus-node-exporter-lua-netstat prometheus-node-exporter-lua-openwrt \
+prometheus-node-exporter-lua-netstat \
+prometheus-node-exporter-lua-openwrt \
 prometheus-node-exporter-lua-wifi \
 prometheus-node-exporter-lua-wifi_stations \
 hostapd-utils \
-opkg install qos-scripts
+qos-scripts
+sleep 1
+
+installed_list=$(opkg list_installed)
+check_strings() {
+  for string in "prometheus-node-exporter-lua" "prometheus-node-exporter-lua-nat_traffic" "prometheus-node-exporter-lua-netstat" \
+"prometheus-node-exporter-lua-openwrt" "prometheus-node-exporter-lua-wifi" "prometheus-node-exporter-lua-wifi_stations" \
+"hostapd-utils" "qos-scripts" ; do
+    if ! opkg list_installed | grep -q "$string" ; then
+      echo "'$string' package wasn't installed successfully."
+      return 1
+    fi
+  done
+  echo "*All packages* were installed successfully"
+  return 0
+}
+if ! check_strings ; then
+    echo "Unexpected error occured. packages weren't installed successfully"
+        exit
+fi
 sleep 1
 
 # enable OpenWrt_wifi
@@ -31,7 +51,7 @@ sleep 1
 uci set prometheus-node-exporter-lua.main.listen_interface='*'
 uci commit prometheus-node-exporter-lua
 /etc/init.d/prometheus-node-exporter-lua restart
-sleep
+sleep 1
 
 # QoS Config file Setting
 
@@ -40,3 +60,5 @@ uci set qos.wan.upload='40000'
 uci commit qos
 /etc/init.d/qos restart
 /etc/init.d/network restart
+
+echo "all step processed successfully!"
