@@ -1,7 +1,13 @@
+# 
 # GLOBAL_VAR_FILE : present state of router's mode file
 # LOGGING_FILE : location of log_file
 GLOBAL_VAR_FILE="/root/test_excute/present_profile"
 LOGGING_FILE="/root/log/log_profile"
+
+# check if global_var_file exist
+if [ ! -f $GLOBAL_VAR_FILE ]; then
+    touch $GLOBAL_VAR_FILE
+fi
 
 # now router's profile mode
 current_mode=$(cat "$GLOBAL_VAR_FILE")
@@ -9,7 +15,7 @@ current_mode=$(cat "$GLOBAL_VAR_FILE")
 # check router's mode if profile is power_saving mode
 if [ $current_mode -eq 3 ]; then
     echo "This router's mode is already [pow_saving]."
-        exit 1
+	exit 1
 fi
 
 # start changing profile
@@ -28,3 +34,4 @@ uci commit qos
 
 echo "[$(date "+%Y-%m-%d %H:%M:%S")] Profile changed to power_saving mode" >> "$LOGGING_FILE"
 echo "Finished to change profile...(loading)"
+
