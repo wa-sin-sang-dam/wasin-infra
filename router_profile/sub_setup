@@ -1,0 +1,29 @@
+DIR_NAME="/root/test_excute"
+LOG_NAME="/root/log"
+
+if [ ! -d "$DIR_NAME" ]; then
+    echo "Created new profile directory"
+    mkdir $DIR_NAME
+fi
+
+if [ ! -d "$LOG_NAME" ]; then
+    echo "Created new log directory"
+    mkdir $LOG_NAME
+    touch "/root/log/log_profile"
+fi
+
+wget https://raw.githubusercontent.com/KwonNaeHyeon/wasin-infra/main/router_setup/port_config
+wget https://raw.githubusercontent.com/KwonNaeHyeon/wasin-infra/main/router_setup/router_setup_1
+wget https://raw.githubusercontent.com/KwonNaeHyeon/wasin-infra/main/router_setup/router_setup_2
+chmod +x port_config
+chmod +x router_setup_*
+
+wget -O $(echo $DIR_NAME/profile_connective) https://raw.githubusercontent.com/KwonNaeHyeon/wasin-infra/main/router_profile/profile_connective
+wget -O $(echo $DIR_NAME/profile_default) https://raw.githubusercontent.com/KwonNaeHyeon/wasin-infra/main/router_profile/profile_default
+wget -O $(echo $DIR_NAME/profile_pow_saving) https://raw.githubusercontent.com/KwonNaeHyeon/wasin-infra/main/router_profile/profile_pow_saving
+wget -O $(echo $DIR_NAME/profile_user_limit) https://raw.githubusercontent.com/KwonNaeHyeon/wasin-infra/main/router_profile/profile_user_limit
+
+chmod +x $(echo "$DIR_NAME/profile_*")
+
+
+
