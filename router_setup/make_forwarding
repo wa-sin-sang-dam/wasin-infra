@@ -1,0 +1,12 @@
+touch router_info
+
+uname -n >> router_info
+ifconfig | grep -A 1 'wan' | grep 'inet' | awk -F'[: ]+' '{print $4}' >> router_info
+ifconfig | grep 'wan' | awk '{print $5}' >> router_info
+
+echo "File transport Started"
+
+scp -P 1222 router_info root@219.241.29.68:/root/
+
+echo "File transport Finished"
+rm router_info
