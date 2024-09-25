@@ -6,8 +6,13 @@ is_number() {
 	esac
 }
 
-if [ -z "$1" ] || ! is_number "$1" || [ ! -s "router_info"]; then
-    echo "We need 'number' argument and router_info file to use this program"
+if [ ! -e "router_info" ]; then
+    echo "We need router_info file to use this program"
+    exit
+fi
+
+if [ -z "$1" ] || ! is_number "$1"; then
+    echo "We need 'number' argument to use this program"
     exit
 else
 	# Firewall accepts sub-router's access
