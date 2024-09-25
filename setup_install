@@ -15,8 +15,19 @@ fi
 wget https://raw.githubusercontent.com/KwonNaeHyeon/wasin-infra/main/router_setup/port_config
 wget https://raw.githubusercontent.com/KwonNaeHyeon/wasin-infra/main/router_setup/router_setup_1
 wget https://raw.githubusercontent.com/KwonNaeHyeon/wasin-infra/main/router_setup/router_setup_2
+wget https://raw.githubusercontent.com/KwonNaeHyeon/wasin-infra/main/router_setup/router_basic_setup
+wget https://raw.githubusercontent.com/KwonNaeHyeon/wasin-infra/main/router_setup/check_refresh
+wget https://raw.githubusercontent.com/KwonNaeHyeon/wasin-infra/main/router_setup/main_config
+wget https://raw.githubusercontent.com/KwonNaeHyeon/wasin-infra/main/router_setup/make_forwarding
+
 chmod +x port_config
+chmod +x router_basic_setup
+chmod +x check_refresh
+chmod +x main_config
+chmod +x make_forwarding
 chmod +x router_setup_*
+
+# after, make sure that router_info file is in $DIR_NAME directory
 
 wget -O $(echo $DIR_NAME/profile_connective) https://raw.githubusercontent.com/KwonNaeHyeon/wasin-infra/main/router_profile/profile_connective
 wget -O $(echo $DIR_NAME/profile_default) https://raw.githubusercontent.com/KwonNaeHyeon/wasin-infra/main/router_profile/profile_default
