@@ -1,0 +1,17 @@
+# Setting router's time and name
+# $1 : Router's Hostname
+
+if [ -z "$1" ]; then
+        echo "We need argument to set this router's hostname"
+else
+        uci set system.@system[0].hostname=$1
+        uci set system.@system[0].zonename='Asia/Seoul'
+        uci set system.@system[0].timezone='KST-9'
+        uci set system.@system[0].log_proto='udp'
+        uci set system.@system[0].conloglevel='8'
+        uci set system.@system[0].cronloglevel='5'
+        uci commit system
+        /etc/init.d/system restart
+fi
+sleep 1
+
