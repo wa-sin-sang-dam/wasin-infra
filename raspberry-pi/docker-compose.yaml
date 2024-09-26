@@ -1,5 +1,17 @@
-# 위치: /grad-project/docker-compose.yaml
 services:
+  nginx:
+    depends_on:
+      - prometheus
+      - grafana
+    image: nginx:1.25.5-alpine
+    ports:
+      - 80:80
+    restart: unless-stopped
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+    container_name: nginx
+    networks:
+      - monitoring
   prometheus:
     image: prom/prometheus
     container_name: prometheus
@@ -13,6 +25,21 @@ services:
       - prom_data:/prometheus
     networks:
       - monitoring
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    ports:
+      - 3000:3000
+    restart: unless-stopped
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=grafana
+    volumes:
+      - ./grafana/datasources:/etc/grafana/provisioning/datasources
+      - ./grafana/data:/var/lib/grafana
+    networks:
+      - monitoring
+
 volumes:
   prom_data:
 
