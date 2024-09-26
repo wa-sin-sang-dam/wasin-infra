@@ -2,6 +2,7 @@
 package main
 
 import (
+	"fmt"
 	"net"
 	"net/http"
 )
@@ -13,11 +14,10 @@ type Server interface {
 }
 
 type server struct {
-	listner      net.Listener
-	handler      http.Handler
-	apiHandler   APIHandler
-	port         int
-	receivedData []byte
+	listner    net.Listener
+	handler    http.Handler
+	apiHandler APIHandler
+	port       int
 }
 
 // NewServer instantiate an API handler with the passed port.
@@ -39,11 +39,7 @@ func NewServer(port int, config Config) (Server, error) {
 
 // Run starts the server and listens on the port passed.
 func (s *server) Run() error {
-	go func() {
-		_ = http.Serve(s.listner, s.handler)
-	}()
-
-	return nil
+	return http.Serve(s.listner, s.handler)
 }
 
 func (s *server) Close() {
@@ -55,7 +51,8 @@ func (s *server) Close() {
 }
 
 func (s *server) createListener(port int) error {
-	listner, err := net.Listen("tcp", ":0")
+	strPort := fmt.Sprintf(":%d", port)
+	listner, err := net.Listen("tcp", strPort)
 	if err != nil {
 		return err
 	}
