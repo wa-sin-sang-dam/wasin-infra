@@ -4,7 +4,7 @@ package main
 type Endpoint string
 
 const (
-	AddTarget    Endpoint = "/api/target/add"
-	RemoveTarget Endpoint = "/api/target/remove"
-	ListTargets  Endpoint = "/api/target/list"
+	AddTarget    Endpoint = "POST /api/target/add"
+	RemoveTarget Endpoint = "POST /api/target/remove"
+	ListTargets  Endpoint = "GET /api/target/list"
 )
