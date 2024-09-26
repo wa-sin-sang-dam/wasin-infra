@@ -51,8 +51,52 @@ func (ah *apiHandler) AddTarget(rw http.ResponseWriter, req *http.Request) {
 
 func (ah *apiHandler) RemoveTarget(rw http.ResponseWriter, req *http.Request) {
 	slog.Info("API Received: Remove Target.")
+
+	var body RemoveTargetRequest
+	err := json.NewDecoder(req.Body).Decode(&body)
+	if err != nil {
+		http.Error(rw, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	err = ah.config.RemoveTarget(body.JobName, body.IP)
+	if err != nil {
+		http.Error(rw, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	err = ah.config.Save()
+	if err != nil {
+		http.Error(rw, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	response := AddTargetResponse{Msg: "Successfully Removed."}
+	rw.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(rw).Encode(response)
 }
 
 func (ah *apiHandler) ListTargets(rw http.ResponseWriter, req *http.Request) {
 	slog.Info("API Received: List Targets.")
+
+	var body ListTargetRequest
+	err := json.NewDecoder(req.Body).Decode(&body)
+	if err != nil {
+		http.Error(rw, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	targets, err := ah.config.ListTargets(body.JobName)
+	if err != nil {
+		http.Error(rw, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	response := ListTargetsResponse{
+		Msg:     "Successfully fetched the targets.",
+		Targets: targets,
+	}
+
+	rw.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(rw).Encode(response)
 }

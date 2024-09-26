@@ -5,7 +5,9 @@ type AddTargetRequest struct {
 	IP      string `json:"ip"`
 }
 
-type ListTargetRequest struct{}
+type ListTargetRequest struct {
+	JobName string `json:"job_name"`
+}
 
 type RemoveTargetRequest struct {
 	JobName string `json:"job_name"`
