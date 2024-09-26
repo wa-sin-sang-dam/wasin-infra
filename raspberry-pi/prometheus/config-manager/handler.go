@@ -1,6 +1,10 @@
 package main
 
-import "net/http"
+import (
+	"encoding/json"
+	"log/slog"
+	"net/http"
+)
 
 type APIHandler interface {
 	AddTarget(rw http.ResponseWriter, req *http.Request)
@@ -19,13 +23,36 @@ func NewAPIHander(config Config) APIHandler {
 }
 
 func (ah *apiHandler) AddTarget(rw http.ResponseWriter, req *http.Request) {
+	slog.Info("API Received: Add Target.")
 
+	var body AddTargetRequest
+	err := json.NewDecoder(req.Body).Decode(&body)
+	if err != nil {
+		http.Error(rw, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	err = ah.config.AddTarget(body.JobName, body.IP)
+	if err != nil {
+		http.Error(rw, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	err = ah.config.Save()
+	if err != nil {
+		http.Error(rw, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	response := AddTargetResponse{Msg: "Successfully Added."}
+	rw.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(rw).Encode(response)
 }
 
 func (ah *apiHandler) RemoveTarget(rw http.ResponseWriter, req *http.Request) {
-
+	slog.Info("API Received: Remove Target.")
 }
 
 func (ah *apiHandler) ListTargets(rw http.ResponseWriter, req *http.Request) {
-
+	slog.Info("API Received: List Targets.")
 }

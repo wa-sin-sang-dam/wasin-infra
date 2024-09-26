@@ -12,8 +12,9 @@ var (
 )
 
 type Config struct {
-	Global  globalConfig   `yaml:"global"`
-	Scrapes []scrapeConfig `yaml:"scrape_configs"`
+	Global   globalConfig   `yaml:"global"`
+	Scrapes  []scrapeConfig `yaml:"scrape_configs"`
+	filePath string
 }
 
 type globalConfig struct {
@@ -31,7 +32,9 @@ type staticConfig struct {
 }
 
 func NewConfig(filePath string) (Config, error) {
-	config := Config{}
+	config := Config{
+		filePath: filePath,
+	}
 
 	yamlFile, err := os.ReadFile(*configPath)
 	if err != nil {
@@ -75,13 +78,13 @@ func (c *Config) RemoveTarget(jobName string, ip string) error {
 	return nil
 }
 
-func (c *Config) Save(filePath string) error {
+func (c *Config) Save() error {
 	bytes, err := yaml.Marshal(c)
 	if err != nil {
 		return err
 	}
 
-	err = os.WriteFile(filePath, bytes, 0666)
+	err = os.WriteFile(c.filePath, bytes, 0666)
 	if err != nil {
 		return err
 	}
