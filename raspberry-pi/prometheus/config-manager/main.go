@@ -18,7 +18,6 @@ var (
 
 func main() {
 	flag.Parse()
-	fmt.Printf("config path passed: %s\n", *configPath)
 
 	config, err := NewConfig(*configPath)
 	if err != nil {
