@@ -39,7 +39,18 @@ services:
       - ./grafana/data:/var/lib/grafana
     networks:
       - monitoring
-
+  prometheus-manager:
+    image: cotidie/prometheus-manager
+    container_name: prometheus-manager
+    ports:
+      - 8001:8001
+    command:
+      - '--config=/app/prometheus.yaml'
+    restart: unless-stopped
+    volumes:
+      - ./prometheus/prometheus.yaml:/app/prometheus.yaml
+    networks:
+      - monitoring
 volumes:
   prom_data:
 
