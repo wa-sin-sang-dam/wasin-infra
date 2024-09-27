@@ -2,6 +2,7 @@ services:
   nginx:
     depends_on:
       - prometheus
+      - prometheus-manager
       - grafana
     image: nginx:1.25.5-alpine
     ports:
@@ -40,6 +41,8 @@ services:
     networks:
       - monitoring
   prometheus-manager:
+    depends_on:
+      - prometheus
     image: cotidie/prometheus-manager
     container_name: prometheus-manager
     ports:
