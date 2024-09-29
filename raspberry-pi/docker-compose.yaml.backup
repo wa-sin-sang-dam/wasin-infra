@@ -2,7 +2,6 @@ services:
   nginx:
     depends_on:
       - prometheus
-      - prometheus-manager
       - grafana
     image: nginx:1.25.5-alpine
     ports:
@@ -40,21 +39,7 @@ services:
       - ./grafana/data:/var/lib/grafana
     networks:
       - monitoring
-  prometheus-manager:
-    depends_on:
-      - prometheus
-    image: cotidie/prometheus-manager
-    container_name: prometheus-manager
-    ports:
-      - 8001:8001
-    command:
-      - '--config=/app/prometheus.yaml'
-    restart: unless-stopped
-    volumes:
-      - ./prometheus/prometheus.yaml:/app/prometheus.yaml
-      - /var/run/docker.sock:/var/run/docker.sock
-    networks:
-      - monitoring
+
 volumes:
   prom_data:
 
