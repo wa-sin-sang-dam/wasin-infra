@@ -1,0 +1,37 @@
+# 
+# GLOBAL_VAR_FILE : present state of router's mode file
+# LOGGING_FILE : location of log_file
+GLOBAL_VAR_FILE="/root/test_excute/present_profile"
+LOGGING_FILE="/root/log/log_profile"
+
+# check if global_var_file exist
+if [ ! -f $GLOBAL_VAR_FILE ]; then
+    touch $GLOBAL_VAR_FILE
+fi
+
+# now router's profile mode
+current_mode=$(cat "$GLOBAL_VAR_FILE")
+
+# check router's mode if profile is user_limit
+if [ $current_mode -eq 2 ]; then
+    echo "This router's mode is already [user_limit]."
+	exit 1
+fi
+
+# start changing profile
+echo "Start to change profile...(loading)"
+echo 2 > "$GLOBAL_VAR_FILE"
+
+# Part of wifi user limit setting
+uci set wireless.default_radio0.maxassoc=1
+uci commit wireless
+/etc/init.d/network restart
+
+# Part of QOS, Internet speed setting
+uci set qos.wan.enabled=0
+uci commit qos
+/etc/init.d/qos start
+
+echo "[$(date "+%Y-%m-%d %H:%M:%S")] Profile changed to user_limit mode" >> "$LOGGING_FILE"
+echo "Finished to change profile...(loading)"
+

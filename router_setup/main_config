@@ -1,0 +1,81 @@
+# $1 : router's number
+is_number() {
+	case $1 in
+		''|*[!0-9]*) return 1 ;;
+		*) return 0 ;;
+	esac
+}
+
+if [ ! -e "router_info" ]; then
+    echo "We need router_info file to use this program"
+    exit
+fi
+
+if [ -z "$1" ] || ! is_number "$1"; then
+    echo "We need 'number' argument to use this program"
+    exit
+else
+	# Firewall accepts sub-router's access
+	
+	r_name=$(sed -n '1p' router_info)
+	r_ipaddr=$(sed -n '2p' router_info)
+	r_macaddr=$(sed -n '3p' router_info)
+
+	# Set static IP for new Router
+
+	uci add dhcp host
+	uci set dhcp.@host[-1].name=$r_name
+	uci set dhcp.@host[-1].ip=$r_ipaddr
+	uci set dhcp.@host[-1].mac=$r_macaddr
+
+	# Set Port-Forwarding for new router
+
+        uci add firewall rule
+        uci set firewall.@rule[-1].name=$(echo Allow-$1)
+        uci set firewall.@rule[-1].src='wan'
+        uci set firewall.@rule[-1].proto='tcp'
+        uci set firewall.@rule[-1].dest_port=$(($1 * 1000 + 100))
+        uci add_list firewall.@rule[-1].dest_port=$(($1 * 1000 + 101))
+        uci add_list firewall.@rule[-1].dest_port=$(($1 * 1000 + 102))
+        uci set firewall.@rule[-1].target='ACCEPT'
+        uci set firewall.@rule[-1].enabled='1'
+	
+	# Set Port-forwarding(SSH, Luci, Metrics)
+
+	SSH_RULE_NAME=$(echo S_rule_$1)
+	WEB_RULE_NAME=$(echo W_rule_$1)
+	METRIC_RULE_NAME=$(echo M_rule_$1)
+	
+	uci add firewall redirect
+	uci set firewall.@redirect[-1].dest='lan'
+	uci set firewall.@redirect[-1].target='DNAT'
+	uci set firewall.@redirect[-1].name=$SSH_RULE_NAME
+	uci set firewall.@redirect[-1].src='wan'
+	uci set firewall.@redirect[-1].src_dport=$(($1 * 1000 + 100))
+	uci set firewall.@redirect[-1].dest_ip=$r_ipaddr
+	uci set firewall.@redirect[-1].dest_port='22'
+	
+	uci add firewall redirect
+	uci set firewall.@redirect[-1].dest='lan'
+	uci set firewall.@redirect[-1].target='DNAT'
+	uci set firewall.@redirect[-1].name=$WEB_RULE_NAME
+	uci set firewall.@redirect[-1].src='wan'
+	uci set firewall.@redirect[-1].src_dport=$(($1 * 1000 + 101))
+	uci set firewall.@redirect[-1].dest_ip=$r_ipaddr
+	uci set firewall.@redirect[-1].dest_port='80'
+
+	uci add firewall redirect
+	uci set firewall.@redirect[-1].dest='lan'
+	uci set firewall.@redirect[-1].target='DNAT'
+	uci set firewall.@redirect[-1].name=$METRIC_RULE_NAME
+	uci set firewall.@redirect[-1].src='wan'
+	uci set firewall.@redirect[-1].src_dport=$(($1 * 1000 + 102))
+	uci set firewall.@redirect[-1].dest_ip=$r_ipaddr
+	uci set firewall.@redirect[-1].dest_port='9100'
+
+	uci commit firewall
+	uci commit dhcp
+	/etc/init.d/firewall restart 
+	rm router_info
+ 	echo "main_setting finished successfully"	
+fi
