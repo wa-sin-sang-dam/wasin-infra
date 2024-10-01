@@ -36,18 +36,21 @@ func (ah *apiHandler) AddTarget(rw http.ResponseWriter, req *http.Request) {
 	var body AddTargetRequest
 	err := json.NewDecoder(req.Body).Decode(&body)
 	if err != nil {
+		slog.Error(err.Error())
 		http.Error(rw, err.Error(), http.StatusBadRequest)
 		return
 	}
 
 	err = ah.config.AddTarget(JOBNAME_ROUTERS, body.IP)
 	if err != nil {
+		slog.Error(err.Error())
 		http.Error(rw, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
 	err = ah.config.Save()
 	if err != nil {
+		slog.Error(err.Error())
 		http.Error(rw, err.Error(), http.StatusInternalServerError)
 		return
 	}
@@ -56,10 +59,12 @@ func (ah *apiHandler) AddTarget(rw http.ResponseWriter, req *http.Request) {
 	cmd := exec.Command("ash", "-c", rawCmd)
 	_, err = cmd.Output()
 	if err != nil {
+		slog.Error(err.Error())
 		http.Error(rw, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
+	slog.Info("successfully added")
 	response := AddTargetResponse{Msg: "Successfully Added."}
 	rw.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(rw).Encode(response)
