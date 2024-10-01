@@ -59,7 +59,7 @@ func (ah *apiHandler) AddTarget(rw http.ResponseWriter, req *http.Request) {
 	}
 
 	rawCmd := fmt.Sprintf("%s > %s", COMMAND_RESTART_PROMETHEUS, PATH_PIPE)
-	cmd := exec.Command("ash", "-c", rawCmd)
+	cmd := exec.Command("bash", "-c", rawCmd)
 	_, err = cmd.Output()
 	if err != nil {
 		msg := fmt.Sprintf("error while executing command: %s", err.Error())
