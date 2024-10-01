@@ -32,12 +32,12 @@ func main() {
 		panic(err)
 	}
 
+	slog.Info(fmt.Sprintf("server starting at :%d", *port))
 	err = server.Run()
 	if err != nil {
 		slog.Error(err.Error())
 		panic(err)
 	}
-	slog.Info(fmt.Sprintf("server started at :%d", *port))
 
 	slog.Info("server terminated")
 }
