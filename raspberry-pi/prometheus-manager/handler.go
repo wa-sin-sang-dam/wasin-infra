@@ -83,13 +83,6 @@ func (ah *apiHandler) RemoveTarget(rw http.ResponseWriter, req *http.Request) {
 func (ah *apiHandler) ListTargets(rw http.ResponseWriter, req *http.Request) {
 	slog.Info("API Received: List Targets.")
 
-	var body ListTargetRequest
-	err := json.NewDecoder(req.Body).Decode(&body)
-	if err != nil {
-		http.Error(rw, err.Error(), http.StatusBadRequest)
-		return
-	}
-
 	targets, err := ah.config.ListTargets(JOBNAME_ROUTERS)
 	if err != nil {
 		http.Error(rw, err.Error(), http.StatusInternalServerError)
