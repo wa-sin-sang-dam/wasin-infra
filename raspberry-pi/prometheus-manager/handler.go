@@ -58,7 +58,7 @@ func (ah *apiHandler) AddTarget(rw http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	rawCmd := fmt.Sprintf("%s > %s", COMMAND_RESTART_PROMETHEUS, PATH_PIPE)
+	rawCmd := fmt.Sprintf("echo \"%s\" > %s", COMMAND_RESTART_PROMETHEUS, PATH_PIPE)
 	cmd := exec.Command("ash", "-c", rawCmd)
 	_, err = cmd.Output()
 	if err != nil {
