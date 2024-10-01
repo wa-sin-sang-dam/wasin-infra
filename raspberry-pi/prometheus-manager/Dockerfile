@@ -17,7 +17,7 @@ COPY . .
 RUN CGO_ENABLED=0 GOOS=linux go build -o prometheus-manager .
 
 # Stage 2: Execute
-FROM alpine:edge
+FROM alpine
 
 WORKDIR /app
 
