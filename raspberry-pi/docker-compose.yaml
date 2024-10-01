@@ -54,7 +54,7 @@ services:
     restart: unless-stopped
     volumes:
       - ./prometheus/prometheus.yaml:/app/prometheus.yaml
-      - /var/run/docker.sock:/var/run/docker.sock
+      - ./pipe/docker:/pipe/docker
     networks:
       - monitoring
 volumes:
