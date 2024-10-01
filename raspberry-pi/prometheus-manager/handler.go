@@ -2,12 +2,16 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"log/slog"
 	"net/http"
+	"os/exec"
 )
 
 const (
-	JOBNAME_ROUTERS = "routers" // 모니터링 라우터 관리용 Job Name
+	JOBNAME_ROUTERS            = "routers"      // 모니터링 라우터 관리용 Job Name
+	PATH_PIPE                  = "/pipe/docker" // 호스트에 명령어를 전송할 파이프
+	COMMAND_RESTART_PROMETHEUS = "docker compose restart prometheus"
 )
 
 type APIHandler interface {
@@ -43,6 +47,14 @@ func (ah *apiHandler) AddTarget(rw http.ResponseWriter, req *http.Request) {
 	}
 
 	err = ah.config.Save()
+	if err != nil {
+		http.Error(rw, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	rawCmd := fmt.Sprintf("%s > %s", COMMAND_RESTART_PROMETHEUS, PATH_PIPE)
+	cmd := exec.Command("ash", "-c", rawCmd)
+	_, err = cmd.Output()
 	if err != nil {
 		http.Error(rw, err.Error(), http.StatusInternalServerError)
 		return
