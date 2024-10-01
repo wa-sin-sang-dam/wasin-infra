@@ -6,6 +6,10 @@ import (
 	"net/http"
 )
 
+const (
+	JOBNAME_ROUTERS = "routers" // 모니터링 라우터 관리용 Job Name
+)
+
 type APIHandler interface {
 	AddTarget(rw http.ResponseWriter, req *http.Request)
 	RemoveTarget(rw http.ResponseWriter, req *http.Request)
@@ -32,7 +36,7 @@ func (ah *apiHandler) AddTarget(rw http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	err = ah.config.AddTarget(body.JobName, body.IP)
+	err = ah.config.AddTarget(JOBNAME_ROUTERS, body.IP)
 	if err != nil {
 		http.Error(rw, err.Error(), http.StatusInternalServerError)
 		return
@@ -59,7 +63,7 @@ func (ah *apiHandler) RemoveTarget(rw http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	err = ah.config.RemoveTarget(body.JobName, body.IP)
+	err = ah.config.RemoveTarget(JOBNAME_ROUTERS, body.IP)
 	if err != nil {
 		http.Error(rw, err.Error(), http.StatusInternalServerError)
 		return
@@ -86,7 +90,7 @@ func (ah *apiHandler) ListTargets(rw http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	targets, err := ah.config.ListTargets(body.JobName)
+	targets, err := ah.config.ListTargets(JOBNAME_ROUTERS)
 	if err != nil {
 		http.Error(rw, err.Error(), http.StatusInternalServerError)
 		return
