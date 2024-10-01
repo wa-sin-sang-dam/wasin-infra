@@ -25,4 +25,4 @@ WORKDIR /app
 COPY --from=build /app/prometheus-manager /app/prometheus-manager
 
 # Set the entrypoint command
-# ENTRYPOINT ["/app/prometheus-manager"]
+ENTRYPOINT ["/app/prometheus-manager"]

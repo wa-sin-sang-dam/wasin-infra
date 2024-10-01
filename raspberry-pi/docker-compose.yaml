@@ -44,6 +44,8 @@ services:
     depends_on:
       - prometheus
     image: cotidie/prometheus-manager
+    stdin_open: true
+    tty: true
     container_name: prometheus-manager
     ports:
       - 8001:8001
