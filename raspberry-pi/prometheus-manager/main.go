@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"log/slog"
 )
 
 var (
@@ -21,18 +22,22 @@ func main() {
 
 	config, err := NewConfig(*configPath)
 	if err != nil {
+		slog.Error(err.Error())
 		panic(err)
 	}
 
 	server, err := NewServer(*port, config)
 	if err != nil {
+		slog.Error(err.Error())
 		panic(err)
 	}
 
+	slog.Info(fmt.Sprintf("server starting at :%d", *port))
 	err = server.Run()
 	if err != nil {
+		slog.Error(err.Error())
 		panic(err)
 	}
 
-	fmt.Println("Terminated")
+	slog.Info("server terminated")
 }

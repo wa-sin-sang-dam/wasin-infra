@@ -1,17 +1,21 @@
 global:
-    scrape_interval: 30s
-    evaluation_interval: 15s
+  scrape_interval: 30s # set the scraping interval to 30 seconds.
+  evaluation_interval: 15s # the interval for evaluating rules.
+
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+          # - alertmanager:9093
+
+rule_files:
+  # - "first_rules.yml"
+
 scrape_configs:
-    - job_name: prometheus
-      static_configs:
-        - targets:
-            - localhost:9090
-    - job_name: routers
-      static_configs:
-        - targets:
-            - 219.241.29.68:9100
-            - 180.68.69.129:9100
-            - 219.241.29.68:2102
-            - 219.241.29.68:3102
-            - 22.22.22.22:1001
-            - 23.22.22.22:1001
+  - job_name: "prometheus"
+    static_configs:
+      - targets: ["localhost:9090"]
+
+  - job_name: "routers" 
+    static_configs:
+      - targets: ["219.241.29.68:9100", "180.68.69.129:9100", "219.241.29.68:2102", "219.241.29.68:3102"]

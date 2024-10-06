@@ -17,15 +17,12 @@ COPY . .
 RUN CGO_ENABLED=0 GOOS=linux go build -o prometheus-manager .
 
 # Stage 2: Execute
-FROM alpine:edge
+FROM alpine
 
 WORKDIR /app
 
 # Copy the binary from the build stage
-COPY --from=build /app/prometheus-manager .
-
-# Set the timezone and install CA certificates
-RUN apk --no-cache add ca-certificates tzdata
+COPY --from=build /app/prometheus-manager /app/prometheus-manager
 
 # Set the entrypoint command
 ENTRYPOINT ["/app/prometheus-manager"]

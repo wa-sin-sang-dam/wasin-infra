@@ -1,15 +1,13 @@
 package main
 
+type Empty struct{}
+
 type AddTargetRequest struct {
-	JobName string `json:"job_name"`
-	IP      string `json:"ip"`
+	IP string `json:"ip"`
 }
 
-type ListTargetRequest struct {
-	JobName string `json:"job_name"`
-}
+type ListTargetRequest Empty
 
 type RemoveTargetRequest struct {
-	JobName string `json:"job_name"`
-	IP      string `json:"ip"`
+	IP string `json:"ip"`
 }
