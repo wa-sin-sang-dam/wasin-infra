@@ -1,0 +1,23 @@
+#!/bin/bash
+
+
+# Command: register_router <ip> <port>
+# Description: 라우터의 IP, 메트릭 노출 포트번호를 받아 프로메테우스에 등록하는 스크립트
+
+IP=$1
+PORT=$2
+API_REGISTER="prometheus-manager.daily-cotidie.com/api/target/add"
+
+if [[ -z "$IP" ]]; then
+    printf '[register_router] 추가할 IP가 전달되지 않았습니다. \n'
+    exit 1;
+fi
+
+if [[ -z "$PORT" ]]; then
+    printf '[register_router] 메트릭 포트번호가 전달되지 않았습니다. \n'
+    exit 1;
+fi
+
+curl $API_REGISTER \
+    --request POST \
+    --data-binary "{\"ip\":\"$IP:$PORT\"}"
