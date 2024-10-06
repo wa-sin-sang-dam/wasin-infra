@@ -1,4 +1,4 @@
-DIR_NAME="/root/test_excute"
+DIR_NAME="/root/profile_execute"
 LOG_NAME="/root/log"
 
 if [ ! -d "$DIR_NAME" ]; then
