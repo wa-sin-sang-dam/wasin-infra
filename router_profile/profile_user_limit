@@ -1,7 +1,7 @@
 # 
 # GLOBAL_VAR_FILE : present state of router's mode file
 # LOGGING_FILE : location of log_file
-GLOBAL_VAR_FILE="/root/test_excute/present_profile"
+GLOBAL_VAR_FILE="/root/profile_execute/present_profile"
 LOGGING_FILE="/root/log/log_profile"
 
 # check if global_var_file exist
