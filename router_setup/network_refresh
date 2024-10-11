@@ -1,0 +1,35 @@
+# Read user's input
+read -p "Do you really want to execute 'network' restart procedure? (y/n) : " result
+
+if [ "$result" == "y" ]; then
+
+    echo "Restart the network part"
+    /etc/init.d/firewall restart
+    /etc/init.d/network restart
+    echo "Restart Finished Successfully"
+    sleep 15
+
+    # Before reboot, check if internet is working properly (with wget, temp file)
+    url="https://raw.githubusercontent.com/KwonNaeHyeon/wasin-infra/refs/heads/main/README.md"
+    touch test_network
+    wget -O test_network $url > /dev/null 2>&1 &
+    echo "Checking network status..."
+
+    sleep 2
+    # cat test_network
+    if [ -s "test_network" ]; then
+        echo "Network works properly."
+        rm test_network
+        exit
+    else
+        echo "Network doesn't work peoperly."
+        rm test_network
+    fi
+    echo "We need to reboot this system"
+
+    read -p "(Warning!) Do you want to 'REBOOT' router's whole system? The reboot takes about 2 minutes. Also, all the functions of the router are not available during the reboot. If you still want to reboot, type 'yes'. : " result
+    if [ "$result" == "yes" ]; then
+        echo "SSH connection is automatically disconnected. See you again in 2 minutes..."
+        reboot
+    fi
+fi

@@ -1,0 +1,3 @@
+iw dev
+echo '---------------------------------------------'
+iw dev wlan0 station dump
