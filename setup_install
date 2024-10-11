@@ -16,13 +16,15 @@ wget https://raw.githubusercontent.com/KwonNaeHyeon/wasin-infra/main/router_setu
 wget https://raw.githubusercontent.com/KwonNaeHyeon/wasin-infra/main/router_setup/router_setup_1
 wget https://raw.githubusercontent.com/KwonNaeHyeon/wasin-infra/main/router_setup/router_setup_2
 wget https://raw.githubusercontent.com/KwonNaeHyeon/wasin-infra/main/router_setup/router_basic_setup
-wget https://raw.githubusercontent.com/KwonNaeHyeon/wasin-infra/main/router_setup/check_refresh
+wget https://raw.githubusercontent.com/KwonNaeHyeon/wasin-infra/refs/heads/main/router_setup/check_status
+wget https://raw.githubusercontent.com/KwonNaeHyeon/wasin-infra/refs/heads/main/router_setup/network_refresh
 wget https://raw.githubusercontent.com/KwonNaeHyeon/wasin-infra/main/router_setup/main_config
 wget https://raw.githubusercontent.com/KwonNaeHyeon/wasin-infra/main/router_setup/make_forwarding
 
 chmod +x port_config
 chmod +x router_basic_setup
-chmod +x check_refresh
+chmod +x check_status
+chmod +x network_refresh
 chmod +x main_config
 chmod +x make_forwarding
 chmod +x router_setup_*
