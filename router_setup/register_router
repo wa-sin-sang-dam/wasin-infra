@@ -9,12 +9,12 @@ PORT=$2
 API_REGISTER="prometheus-manager.daily-cotidie.com/api/target/add"
 
 if [[ -z "$IP" ]]; then
-    printf '[register_router] 추가할 IP가 전달되지 않았습니다. \n'
+    printf '[register_router] No IP address is delivered. \n'
     exit 1;
 fi
 
 if [[ -z "$PORT" ]]; then
-    printf '[register_router] 메트릭 포트번호가 전달되지 않았습니다. \n'
+    printf '[register_router] No port number for metrics export is delivered. \n'
     exit 1;
 fi
 
