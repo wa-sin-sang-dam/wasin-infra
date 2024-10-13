@@ -19,8 +19,8 @@ if [ ! -d "$SETUP_NAME" ]; then
 fi 
 
 wget https://raw.githubusercontent.com/wa-sin-sang-dam/wasin-infra/refs/heads/main/router_setup/main_config        -O $(echo /$SETUP_NAME/main_config)
-wget https://raw.githubusercontent.com/wa-sin-sang-dam/wasin-infra/refs/heads/main/router_setup/check_refresh  
-wget https://raw.githubusercontent.com/KwonNaeHyeon/wasin-infra/refs/heads/main/router_setup/network_refresh    -O $(echo /$SETUP_NAME/check_refresh)
+wget https://raw.githubusercontent.com/wa-sin-sang-dam/wasin-infra/refs/heads/main/router_setup/check_refresh      -O $(echo /$SETUP_NAME/check_refresh)
+wget https://raw.githubusercontent.com/KwonNaeHyeon/wasin-infra/refs/heads/main/router_setup/network_refresh       -O $(echo /$SETUP_NAME/network_refresh)
 wget https://raw.githubusercontent.com/wa-sin-sang-dam/wasin-infra/refs/heads/main/router_setup/make_forwarding    -O $(echo /$SETUP_NAME/make_forwarding) 
 wget https://raw.githubusercontent.com/wa-sin-sang-dam/wasin-infra/refs/heads/main/router_setup/port_config        -O $(echo /$SETUP_NAME/port_config)
 wget https://raw.githubusercontent.com/wa-sin-sang-dam/wasin-infra/refs/heads/main/router_setup/register_router    -O $(echo /$SETUP_NAME/register_router)
