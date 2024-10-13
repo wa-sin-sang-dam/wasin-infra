@@ -20,13 +20,16 @@ fi
 
 wget https://raw.githubusercontent.com/wa-sin-sang-dam/wasin-infra/refs/heads/main/router_setup/main_config        -O $(echo /$SETUP_NAME/main_config)
 wget https://raw.githubusercontent.com/wa-sin-sang-dam/wasin-infra/refs/heads/main/router_setup/check_status       -O $(echo /$SETUP_NAME/check_status)
-wget https://raw.githubusercontent.com/KwonNaeHyeon/wasin-infra/refs/heads/main/router_setup/network_refresh       -O $(echo /$SETUP_NAME/network_refresh)
+wget https://raw.githubusercontent.com/wa-sin-sang-dam/wasin-infra/refs/heads/main/router_setup/network_refresh    -O $(echo /$SETUP_NAME/network_refresh)
 wget https://raw.githubusercontent.com/wa-sin-sang-dam/wasin-infra/refs/heads/main/router_setup/make_forwarding    -O $(echo /$SETUP_NAME/make_forwarding) 
 wget https://raw.githubusercontent.com/wa-sin-sang-dam/wasin-infra/refs/heads/main/router_setup/port_config        -O $(echo /$SETUP_NAME/port_config)
 wget https://raw.githubusercontent.com/wa-sin-sang-dam/wasin-infra/refs/heads/main/router_setup/register_router    -O $(echo /$SETUP_NAME/register_router)
 wget https://raw.githubusercontent.com/wa-sin-sang-dam/wasin-infra/refs/heads/main/router_setup/router_basic_setup -O $(echo /$SETUP_NAME/router_basic_setup)
 wget https://raw.githubusercontent.com/wa-sin-sang-dam/wasin-infra/refs/heads/main/router_setup/router_setup_1     -O $(echo /$SETUP_NAME/router_setup_1)
 wget https://raw.githubusercontent.com/wa-sin-sang-dam/wasin-infra/refs/heads/main/router_setup/router_setup_2     -O $(echo /$SETUP_NAME/router_setup_2)
+
+# check refresh -> should be located at /root for the server-side reason
+wget https://raw.githubusercontent.com/wa-sin-sang-dam/wasin-infra/refs/heads/main/router_setup/check_refresh -O /root
 
 chmod a+x $(echo "$SETUP_NAME/*")
 
