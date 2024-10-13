@@ -28,8 +28,8 @@ wget https://raw.githubusercontent.com/wa-sin-sang-dam/wasin-infra/refs/heads/ma
 wget https://raw.githubusercontent.com/wa-sin-sang-dam/wasin-infra/refs/heads/main/router_setup/router_setup_1     -O $(echo /$SETUP_NAME/router_setup_1)
 wget https://raw.githubusercontent.com/wa-sin-sang-dam/wasin-infra/refs/heads/main/router_setup/router_setup_2     -O $(echo /$SETUP_NAME/router_setup_2)
 
-# check refresh -> should be located at /root for the server-side reason
-wget https://raw.githubusercontent.com/wa-sin-sang-dam/wasin-infra/refs/heads/main/router_setup/check_refresh -O /root
+# check_status -> should be located at /root for the server-side reason
+wget https://raw.githubusercontent.com/wa-sin-sang-dam/wasin-infra/refs/heads/main/router_setup/check_status -O 
 
 chmod a+x $(echo "$SETUP_NAME/*")
 
