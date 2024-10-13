@@ -1,5 +1,6 @@
 DIR_NAME="/root/profile_execute"
 LOG_NAME="/root/log"
+SETUP_NAME="/root/setup"
 
 if [ ! -d "$DIR_NAME" ]; then
     echo "Created new profile directory"
@@ -12,25 +13,24 @@ if [ ! -d "$LOG_NAME" ]; then
     touch "/root/log/log_profile"
 fi
 
-wget https://raw.githubusercontent.com/KwonNaeHyeon/wasin-infra/main/router_setup/port_config
-wget https://raw.githubusercontent.com/KwonNaeHyeon/wasin-infra/main/router_setup/router_setup_1
-wget https://raw.githubusercontent.com/KwonNaeHyeon/wasin-infra/main/router_setup/router_setup_2
-wget https://raw.githubusercontent.com/KwonNaeHyeon/wasin-infra/main/router_setup/router_basic_setup
-wget https://raw.githubusercontent.com/KwonNaeHyeon/wasin-infra/refs/heads/main/router_setup/check_status
-wget https://raw.githubusercontent.com/KwonNaeHyeon/wasin-infra/refs/heads/main/router_setup/network_refresh
-wget https://raw.githubusercontent.com/KwonNaeHyeon/wasin-infra/main/router_setup/main_config
-wget https://raw.githubusercontent.com/KwonNaeHyeon/wasin-infra/main/router_setup/make_forwarding
+if [ ! -d "$SETUP_NAME" ]; then
+    echo "Created new log directory"
+    mkdir $SETUP_NAME
+fi 
 
-chmod +x port_config
-chmod +x router_basic_setup
-chmod +x check_status
-chmod +x network_refresh
-chmod +x main_config
-chmod +x make_forwarding
-chmod +x router_setup_*
+wget https://raw.githubusercontent.com/wa-sin-sang-dam/wasin-infra/refs/heads/main/router_setup/main_config        -O $(echo /$SETUP_NAME/main_config)
+wget https://raw.githubusercontent.com/wa-sin-sang-dam/wasin-infra/refs/heads/main/router_setup/check_status       -O $(echo /$SETUP_NAME/check_status)
+wget https://raw.githubusercontent.com/KwonNaeHyeon/wasin-infra/refs/heads/main/router_setup/network_refresh       -O $(echo /$SETUP_NAME/network_refresh)
+wget https://raw.githubusercontent.com/wa-sin-sang-dam/wasin-infra/refs/heads/main/router_setup/make_forwarding    -O $(echo /$SETUP_NAME/make_forwarding) 
+wget https://raw.githubusercontent.com/wa-sin-sang-dam/wasin-infra/refs/heads/main/router_setup/port_config        -O $(echo /$SETUP_NAME/port_config)
+wget https://raw.githubusercontent.com/wa-sin-sang-dam/wasin-infra/refs/heads/main/router_setup/register_router    -O $(echo /$SETUP_NAME/register_router)
+wget https://raw.githubusercontent.com/wa-sin-sang-dam/wasin-infra/refs/heads/main/router_setup/router_basic_setup -O $(echo /$SETUP_NAME/router_basic_setup)
+wget https://raw.githubusercontent.com/wa-sin-sang-dam/wasin-infra/refs/heads/main/router_setup/router_setup_1     -O $(echo /$SETUP_NAME/router_setup_1)
+wget https://raw.githubusercontent.com/wa-sin-sang-dam/wasin-infra/refs/heads/main/router_setup/router_setup_2     -O $(echo /$SETUP_NAME/router_setup_2)
+
+chmod a+x $(echo "$SETUP_NAME/*")
 
 # after, make sure that router_info file is in $DIR_NAME directory
-
 wget -O $(echo $DIR_NAME/profile_connective) https://raw.githubusercontent.com/KwonNaeHyeon/wasin-infra/main/router_profile/profile_connective
 wget -O $(echo $DIR_NAME/profile_default) https://raw.githubusercontent.com/KwonNaeHyeon/wasin-infra/main/router_profile/profile_default
 wget -O $(echo $DIR_NAME/profile_pow_saving) https://raw.githubusercontent.com/KwonNaeHyeon/wasin-infra/main/router_profile/profile_pow_saving
