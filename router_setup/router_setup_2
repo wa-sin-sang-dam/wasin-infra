@@ -55,7 +55,7 @@ sleep 1
 
 # QoS Config file Setting
 uci set qos.wan.upload='40000'
-uci set qos.wan.upload='40000'
+uci set qos.wan.download='40000'
 uci commit qos
 /etc/init.d/qos restart
 /etc/init.d/network restart
