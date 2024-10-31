@@ -21,6 +21,9 @@ FROM alpine
 
 WORKDIR /app
 
+RUN apk add --update docker openrc
+RUN rc-update add docker boot
+
 # Copy the binary from the build stage
 COPY --from=build /app/prometheus-manager /app/prometheus-manager
 
