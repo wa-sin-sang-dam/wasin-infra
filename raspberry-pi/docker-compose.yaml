@@ -43,7 +43,9 @@ services:
   prometheus-manager:
     depends_on:
       - prometheus
-    image: cotidie/prometheus-manager
+    build:
+      context: ./prometheus-manager
+    image: prometheus-manager
     stdin_open: true
     tty: true
     container_name: prometheus-manager

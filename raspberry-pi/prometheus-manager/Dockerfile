@@ -1,5 +1,5 @@
 # Stage 1: Build stage
-FROM golang:1.23-alpine AS build
+FROM golang:1.23 AS build
 
 ARG PORT=8001
 
