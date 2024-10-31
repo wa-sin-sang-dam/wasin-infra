@@ -43,7 +43,9 @@ services:
   prometheus-manager:
     depends_on:
       - prometheus
-    image: cotidie/prometheus-manager
+    build:
+      context: ./prometheus-manager
+    image: prometheus-manager
     stdin_open: true
     tty: true
     container_name: prometheus-manager
@@ -54,6 +56,7 @@ services:
     restart: unless-stopped
     volumes:
       - ./prometheus/prometheus.yaml:/app/prometheus.yaml
+      - /var/run/docker.sock:/var/run/docker.sock 
       - ./pipe/docker:/pipe/docker
     networks:
       - monitoring

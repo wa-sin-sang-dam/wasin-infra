@@ -1,5 +1,5 @@
 # Stage 1: Build stage
-FROM golang:1.23-alpine AS build
+FROM golang:1.23 AS build
 
 ARG PORT=8001
 
@@ -20,6 +20,9 @@ RUN CGO_ENABLED=0 GOOS=linux go build -o prometheus-manager .
 FROM alpine
 
 WORKDIR /app
+
+RUN apk add --update docker openrc
+RUN rc-update add docker boot
 
 # Copy the binary from the build stage
 COPY --from=build /app/prometheus-manager /app/prometheus-manager

@@ -9,9 +9,8 @@ import (
 )
 
 const (
-	JOBNAME_ROUTERS            = "routers"      // 모니터링 라우터 관리용 Job Name
-	PATH_PIPE                  = "/pipe/docker" // 호스트에 명령어를 전송할 파이프
-	COMMAND_RESTART_PROMETHEUS = "docker compose restart prometheus"
+	JOBNAME_ROUTERS            = "routers" // 모니터링 라우터 관리용 Job Name
+	COMMAND_RESTART_PROMETHEUS = "docker restart prometheus"
 )
 
 type APIHandler interface {
@@ -58,8 +57,7 @@ func (ah *apiHandler) AddTarget(rw http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	rawCmd := fmt.Sprintf("echo \"%s\" > %s", COMMAND_RESTART_PROMETHEUS, PATH_PIPE)
-	cmd := exec.Command("ash", "-c", rawCmd)
+	cmd := exec.Command("ash", "-c", COMMAND_RESTART_PROMETHEUS)
 	_, err = cmd.Output()
 	if err != nil {
 		msg := fmt.Sprintf("error while executing command: %s", err.Error())
@@ -102,8 +100,7 @@ func (ah *apiHandler) RemoveTarget(rw http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	rawCmd := fmt.Sprintf("echo \"%s\" > %s", COMMAND_RESTART_PROMETHEUS, PATH_PIPE)
-	cmd := exec.Command("ash", "-c", rawCmd)
+	cmd := exec.Command("ash", "-c", COMMAND_RESTART_PROMETHEUS)
 	_, err = cmd.Output()
 	if err != nil {
 		msg := fmt.Sprintf("error while executing command: %s", err.Error())
