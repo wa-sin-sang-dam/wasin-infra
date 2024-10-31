@@ -10,7 +10,7 @@ import (
 
 const (
 	JOBNAME_ROUTERS            = "routers" // 모니터링 라우터 관리용 Job Name
-	COMMAND_RESTART_PROMETHEUS = "docker compose restart prometheus"
+	COMMAND_RESTART_PROMETHEUS = "docker restart prometheus"
 )
 
 type APIHandler interface {
